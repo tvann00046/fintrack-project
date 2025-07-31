@@ -14,7 +14,7 @@ pipeline {
 
         stage('Code Analysis - SonarQube') {
             steps {
-                withSonarQubeEnv('SonarQube ') {
+                withSonarQubeEnv('SonarQube') {
                     sh 'mvn -f backend/pom.xml clean verify sonar:sonar'
                 }
             }
