@@ -9,7 +9,7 @@ pipeline {
         stage('Code Analysis - SonarQube') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    bat 'mvn clean verify sonar:sonar'
+                  bat 'mvn -f be-fintrack-master/pom.xml clean verify sonar:sonar'
                 }
             }
         }
