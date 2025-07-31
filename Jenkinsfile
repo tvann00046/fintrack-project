@@ -6,12 +6,6 @@ pipeline {
     }
 
     stages {
-
-            steps {
-                git 'https://github.com/tvann00046/fintrack-project.git'
-            }
-        }
-
         stage('Code Analysis - SonarQube') {
             steps {
                 withSonarQubeEnv('SonarQube') {
