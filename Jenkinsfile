@@ -15,21 +15,21 @@ pipeline {
         stage('Code Analysis - SonarQube') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    sh 'mvn -f backend/pom.xml clean verify sonar:sonar'
+                    bat 'mvn -f backend/pom.xml clean verify sonar:sonar'
                 }
             }
         }
 
         stage('Docker Build') {
             steps {
-                sh 'docker-compose build'
+                bat 'docker-compose build'
             }
         }
 
         stage('Deploy Local') {
             steps {
-                sh 'docker-compose down'
-                sh 'docker-compose up -d'
+                bat 'docker-compose down'
+                bat 'docker-compose up -d'
             }
         }
     }
