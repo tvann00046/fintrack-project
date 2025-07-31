@@ -3,28 +3,33 @@ FROM node:18-alpine AS build
 
 WORKDIR /app
 
-# Copy package files and install deps
+# ✅ Cài vite global để tránh lỗi "vite: not found"
+RUN npm install -g vite
+
+# Copy package files và cài dependency (bao gồm cả devDependencies)
 COPY package*.json ./
 RUN npm install
 
-# Copy source code
+# Copy toàn bộ source code
 COPY . .
 
-# Build with environment variable
+# ✅ Thiết lập biến môi trường build
 ARG VITE_API_BASE_URL
 ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
-RUN npm run build
+
+# ✅ Build trực tiếp bằng vite (không dùng npx nữa)
+RUN vite build
 
 # ======== STAGE 2: Serve with Nginx ========
 FROM nginx:alpine
 
-# Remove default config
+# Xóa default config
 RUN rm /etc/nginx/conf.d/default.conf
 
-# Copy custom nginx config (you should have nginx.conf in project root)
+# Copy nginx.conf của bạn
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy build result from previous stage
+# Copy kết quả build từ stage 1
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
