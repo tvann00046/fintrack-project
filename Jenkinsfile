@@ -6,7 +6,7 @@ pipeline {
     }
 
     stages {
-        stage('Clone Source') {
+
             steps {
                 git 'https://github.com/tvann00046/fintrack-project.git'
             }
